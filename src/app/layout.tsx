@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from '@clerk/nextjs';
+import {dark} from "@clerk/themes";
+import Provider from "@/app/Provider";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -18,12 +21,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${fontSans.variable} antialiased`}
+      <ClerkProvider
+      appearance={{
+          baseTheme: dark,
+          variables: {
+              colorPrimary: '#3371ff',
+              fontSize: '16px'
+          }
+      }}
       >
-        {children}
-      </body>
-    </html>
+          <html lang="en">
+          <body
+              className={`${fontSans.variable} antialiased`}
+          >
+          <Provider>
+              {children}
+          </Provider>
+          </body>
+          </html>
+      </ClerkProvider>
   );
 }
